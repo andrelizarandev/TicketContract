@@ -14,3 +14,8 @@ truffle console
 seatContract = await SeatContract.deployed()
 seat = seatContract.seats(0)
 
+## Herramientas
+* Truffle
+* Solidity
+* Javascript
+* Ganache
