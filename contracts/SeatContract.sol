@@ -1,4 +1,4 @@
-pragma solidity ^0.8.6;
+pragma solidity ^0.8.12;
 
 contract SeatContract {
 
@@ -125,6 +125,19 @@ contract SeatContract {
         seats[i] = newSeat;
       }
     }
+  }
+
+  function getUserTickets (string memory _idUser) public view returns(string memory) {
+    string memory idsArray = "";
+    Ticket memory ticket = Ticket("", "", "");
+    for (uint i = 0; i < ticketCounter; i++) {
+      ticket = tickets[i];
+      if (stringsEquals(ticket.idUser, _idUser)) { 
+        idsArray = string.concat(idsArray, ticket.id); 
+        idsArray = string.concat(idsArray, ","); 
+      }
+    }
+    return idsArray;
   }
 
   function getSeat (uint _position) public view returns (Seat memory) {
