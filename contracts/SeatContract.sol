@@ -24,6 +24,8 @@ contract SeatContract {
     string id;
     string idSeat;
     string idUser;
+    string row;
+    string column;
   }
 
   constructor () {
@@ -83,8 +85,8 @@ contract SeatContract {
     seatCounter++;
   }
 
-  function createTicket (string memory _id, string memory _idSeat, string memory _idUser) public {
-    tickets[ticketCounter] = Ticket(_id, _idSeat, _idUser);
+  function createTicket (string memory _id, string memory _idSeat, string memory _idUser, string memory row, string memory column) public {
+    tickets[ticketCounter] = Ticket(_id, _idSeat, _idUser, row, column);
     ticketCounter++;
   }
 
@@ -110,7 +112,7 @@ contract SeatContract {
         seats[i] = newSeat;
       }
     }
-    createTicket(_idTicket, _idSeat, _idUser);
+    createTicket(_idTicket, _idSeat, _idUser, newSeat.row, newSeat.column);
   }
 
   function removeTicket (string memory _idSeat) public {
@@ -129,7 +131,7 @@ contract SeatContract {
 
   function getUserTickets (string memory _idUser) public view returns(string memory) {
     string memory idsArray = "";
-    Ticket memory ticket = Ticket("", "", "");
+    Ticket memory ticket = Ticket("", "", "", "", "");
     for (uint i = 0; i < ticketCounter; i++) {
       ticket = tickets[i];
       if (stringsEquals(ticket.idUser, _idUser)) { 
@@ -142,6 +144,15 @@ contract SeatContract {
 
   function getSeat (uint _position) public view returns (Seat memory) {
     return seats[_position];
+  }
+
+  function getTicketById (string memory _idTicket) public view returns (Ticket memory) {
+    Ticket memory ticket = Ticket("", "", "", "", "");
+    for (uint i = 0; i < ticketCounter; i++) {
+      bool compareIds = stringsEquals(_idTicket, tickets[i].id);
+      if (compareIds) { ticket = tickets[i]; }
+    }
+    return ticket;
   }
 
   function stringsEquals(string memory s1, string memory s2) private pure returns (bool) {
